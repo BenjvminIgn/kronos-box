@@ -10,6 +10,13 @@ body{
     background-attachment: fixed;
     background-repeat: no-repeat;
 }
+.logo-navbar {
+    width: 70px;           /* Debe ser el mismo valor que el alto para ser un círculo perfecto */
+    height: 70px;
+    border-radius: 50%;    /* Hace la imagen completamente redonda */
+    object-fit: cover;     /* Recorta la imagen limpiamente si no fuera perfectamente cuadrada */
+    border: 2px solid #ffc107; /* (Opcional) Un fino borde amarillo acorde al estilo de tu web */
+}
 
 #inicio {
     min-height: 100vh;
