@@ -1,0 +1,179 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body{
+    background-color: rgb(3, 0, 16);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(../img/background-kronos.avif);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+#inicio {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.buttons{
+    margin-top: 50px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.buttons .btn{
+    padding: 12px 40px;
+}
+
+@media (max-width: 576px) {
+    .buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .buttons .btn {
+        width: 100%;
+    }
+}
+
+/* Nav Link Hover Animation */
+.navbar-nav .nav-link {
+    position: relative;
+    transition: color 0.3s ease;
+
+}
+
+.navbar-nav .nav-link:hover {
+    color: #FFD600 !important;
+}
+
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: #FFD600;
+    transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after {
+    width: 100%;
+}
+.title h1{
+    line-height: 1.1;
+}
+.title p{
+    line-height: 1.5;
+    color: #e2e2c7;
+    max-width: 600px;
+}
+.title {
+    margin-top: 100px;
+}
+
+/* Tarjetas Sección Nosotros */
+.card-nosotros {
+    background-color: #1a1c23;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-nosotros:hover {
+    transform: translateY(-5px);
+    border-color: #FFD600;
+}
+
+.icon-box {
+    width: 48px;
+    height: 48px;
+    background-color: rgba(255, 214, 0, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-secondary {
+    color: #a0aab2 !important;
+}
+
+/* Badges Horario */
+.badge-cf {
+    background-color: rgba(255, 214, 0, 0.08);
+    color: #FFD600;
+    border: 1px solid rgba(255, 214, 0, 0.2);
+    font-weight: normal;
+    padding: 6px 10px;
+}
+.badge-senior {
+    background-color: rgba(13, 202, 240, 0.08);
+    color: #0dcaf0;
+    border: 1px solid rgba(13, 202, 240, 0.2);
+    font-weight: normal;
+    padding: 6px 10px;
+}
+.badge-endurance {
+    background-color: rgba(253, 126, 20, 0.08);
+    color: #fd7e14;
+    border: 1px solid rgba(253, 126, 20, 0.2);
+    font-weight: normal;
+    padding: 6px 10px;
+}
+.badge-gap {
+    background-color: rgba(168, 85, 247, 0.08);
+    color: #a855f7;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    font-weight: normal;
+    padding: 6px 10px;
+}
+.badge-empty {
+    color: #495057;
+}
+
+/* Tabla Horarios */
+.table-kronos {
+    background-color: #1a1c23;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.table-kronos th, .table-kronos td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background-color: transparent;
+    color: #a0aab2;
+    vertical-align: middle;
+}
+.table-kronos th {
+    color: #fff;
+    font-weight: normal;
+}
+.table-kronos tbody tr:hover td {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Tabs Planes */
+.btn-plan {
+    background-color: rgba(255,255,255,0.05) !important;
+    color: #a0aab2 !important;
+    border: none !important;
+    padding: 0.5rem 1.5rem !important;
+    font-weight: normal !important;
+    border-radius: 6px !important;
+    transition: all 0.3s ease !important;
+}
+.btn-plan:hover {
+    background-color: rgba(255,255,255,0.1) !important;
+    color: #fff !important;
+}
+.nav-pills .nav-link.active.btn-plan, .btn-plan.active {
+    background-color: #FFD600 !important;
+    color: #212529 !important;
+    font-weight: bold !important;
+}
