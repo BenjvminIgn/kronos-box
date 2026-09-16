@@ -247,3 +247,121 @@ function renderTabLargoPlazo(containerId) {
 renderTabMensual('general-content', preciosGeneral);
 renderTabMensual('estudiante-content', preciosEstudiante);
 renderTabLargoPlazo('largo-plazo-content');
+
+// =============================================
+// Indicador "¿Está abierto ahora?"
+// =============================================
+
+// Horario real del box: día de la semana (0=Domingo...6=Sábado)
+// Cada bloque dura 1 hora salvo que se indique otra duración
+const horarioSemanal = {
+    1: [ // Lunes
+        { inicio: '08:30', fin: '09:30', nombre: 'CF' },
+        { inicio: '09:30', fin: '10:30', nombre: 'CF' },
+        { inicio: '10:30', fin: '11:30', nombre: '+50' },
+        { inicio: '17:00', fin: '18:00', nombre: 'CF' },
+        { inicio: '18:00', fin: '19:00', nombre: 'CF' },
+        { inicio: '19:00', fin: '20:00', nombre: 'CF' },
+        { inicio: '20:00', fin: '21:00', nombre: 'CF' },
+    ],
+    2: [ // Martes
+        { inicio: '08:30', fin: '09:30', nombre: 'CF' },
+        { inicio: '09:30', fin: '10:30', nombre: 'CF' },
+        { inicio: '17:00', fin: '18:00', nombre: 'CF' },
+        { inicio: '18:00', fin: '19:00', nombre: 'CF' },
+        { inicio: '19:00', fin: '20:00', nombre: 'CF' },
+        { inicio: '20:00', fin: '21:00', nombre: 'CF' },
+    ],
+    3: [ // Miércoles
+        { inicio: '08:30', fin: '09:30', nombre: 'CF' },
+        { inicio: '09:30', fin: '10:30', nombre: 'CF' },
+        { inicio: '10:30', fin: '11:30', nombre: 'Endurance' },
+        { inicio: '17:00', fin: '18:00', nombre: 'CF' },
+        { inicio: '18:00', fin: '19:00', nombre: 'CF' },
+        { inicio: '19:00', fin: '20:00', nombre: 'CF' },
+        { inicio: '20:00', fin: '21:00', nombre: 'GAP' },
+    ],
+    4: [ // Jueves
+        { inicio: '08:30', fin: '09:30', nombre: 'CF' },
+        { inicio: '09:30', fin: '10:30', nombre: 'CF' },
+        { inicio: '17:00', fin: '18:00', nombre: 'CF' },
+        { inicio: '18:00', fin: '19:00', nombre: 'CF' },
+        { inicio: '19:00', fin: '20:00', nombre: 'CF' },
+        { inicio: '20:00', fin: '21:00', nombre: 'CF' },
+    ],
+    5: [ // Viernes
+        { inicio: '08:30', fin: '09:30', nombre: 'CF' },
+        { inicio: '09:30', fin: '10:30', nombre: 'CF' },
+        { inicio: '10:30', fin: '11:30', nombre: '+50' },
+        { inicio: '17:00', fin: '18:00', nombre: 'CF' },
+        { inicio: '18:00', fin: '19:00', nombre: 'Endurance' },
+        { inicio: '19:00', fin: '20:00', nombre: 'CF' },
+    ],
+    6: [ // Sábado
+        { inicio: '10:00', fin: '11:00', nombre: 'CF' },
+        { inicio: '11:00', fin: '12:00', nombre: 'CF' },
+    ],
+    0: [] // Domingo cerrado
+};
+
+const nombresDias = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+
+function horaAMinutos(horaStr) {
+    const [h, m] = horaStr.split(':').map(Number);
+    return h * 60 + m;
+}
+
+function actualizarEstadoBox() {
+    const ahora = new Date();
+    const diaActual = ahora.getDay();
+    const minutosAhora = ahora.getHours() * 60 + ahora.getMinutes();
+    const bloquesHoy = horarioSemanal[diaActual] || [];
+
+    // ¿Hay una clase corriendo ahora mismo?
+    const claseActual = bloquesHoy.find(b =>
+        minutosAhora >= horaAMinutos(b.inicio) && minutosAhora < horaAMinutos(b.fin)
+    );
+
+    const contenedor = document.getElementById('estado-box');
+    if (!contenedor) return;
+
+    if (claseActual) {
+        contenedor.innerHTML = `
+            <span class="badge d-inline-flex align-items-center gap-2 py-2 px-3" 
+                  style="background-color: rgba(40, 199, 111, 0.12); color: #28c76f; border: 1px solid rgba(40, 199, 111, 0.3); font-size: 0.9rem; font-weight: 600;">
+                <span style="width: 8px; height: 8px; border-radius: 50%; background-color: #28c76f; display: inline-block;"></span>
+                Hay clase ahora: ${claseActual.nombre} · hasta las ${claseActual.fin}
+            </span>`;
+        return;
+    }
+
+    // Si no hay clase ahora, buscar la próxima (hoy o en los próximos días)
+    const proximaHoy = bloquesHoy.find(b => horaAMinutos(b.inicio) > minutosAhora);
+    if (proximaHoy) {
+        contenedor.innerHTML = `
+            <span class="badge d-inline-flex align-items-center gap-2 py-2 px-3" 
+                  style="background-color: rgba(255, 214, 0, 0.1); color: #FFD600; border: 1px solid rgba(255, 214, 0, 0.25); font-size: 0.9rem; font-weight: 600;">
+                <span style="width: 8px; height: 8px; border-radius: 50%; background-color: #FFD600; display: inline-block;"></span>
+                Cerrado ahora · próxima clase hoy a las ${proximaHoy.inicio}: ${proximaHoy.nombre}
+            </span>`;
+        return;
+    }
+
+    // Buscar el próximo día con bloques disponibles
+    for (let i = 1; i <= 7; i++) {
+        const diaSiguiente = (diaActual + i) % 7;
+        const bloques = horarioSemanal[diaSiguiente];
+        if (bloques && bloques.length > 0) {
+            contenedor.innerHTML = `
+                <span class="badge d-inline-flex align-items-center gap-2 py-2 px-3" 
+                      style="background-color: rgba(255, 255, 255, 0.05); color: #a0aab2; border: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; font-weight: 600;">
+                    <span style="width: 8px; height: 8px; border-radius: 50%; background-color: #a0aab2; display: inline-block;"></span>
+                    Cerrado · próxima clase el ${nombresDias[diaSiguiente]} a las ${bloques[0].inicio}
+                </span>`;
+            return;
+        }
+    }
+}
+
+actualizarEstadoBox();
+setInterval(actualizarEstadoBox, 60000); // se actualiza solo cada minuto
