@@ -195,7 +195,8 @@ body{
     z-index: 9999;
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    gap: 0px;
     background-color: #FFD600;
     color: #1a1c23;
     border: none;
@@ -237,6 +238,7 @@ body{
     box-shadow: 0 6px 28px rgba(255, 214, 0, 0.45);
     padding: 14px 22px;
     max-width: 260px;
+    gap: 8px;
 }
 
 .btn-volver-inicio:hover span {
@@ -260,4 +262,34 @@ body{
     .btn-volver-inicio:hover {
         padding: 12px 18px;
     }
+}
+
+/* ====================== */
+/* Formulario Inscripción */
+/* ====================== */
+.custom-input {
+    background-color: #121317 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    padding: 0.75rem 1rem !important;
+    border-radius: 8px !important;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease !important;
+}
+
+.custom-input:focus {
+    background-color: #161820 !important;
+    border-color: #FFD600 !important;
+    box-shadow: 0 0 0 0.25rem rgba(255, 214, 0, 0.15) !important;
+    color: #ffffff !important;
+}
+
+.custom-input::placeholder {
+    color: #6c757d !important;
+}
+
+.custom-input option, 
+.custom-input optgroup {
+    background-color: #1a1c23;
+    color: #ffffff;
 }

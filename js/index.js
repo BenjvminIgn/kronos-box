@@ -117,8 +117,8 @@ function renderDestacadoMensual(precio) {
                     <p class="text-secondary mb-1" style="font-size: 0.8rem; text-transform: uppercase;">Valor mensual</p>
                     <h1 class="text-warning mb-0" style="font-size: 3.5rem; font-weight: 700;">${precio}<span class="text-secondary fs-5 fw-normal"> / mes</span></h1>
                 </div>
-                <a href="${INSTAGRAM_URL}" target="_blank" rel="noopener noreferrer" class="btn btn-warning btn-lg px-4 py-3 fw-bold w-100 w-lg-auto">
-                    <i class="fa-brands fa-instagram me-2"></i> UNIRME AL PLAN ILIMITADO
+                <a href="#inscripcion" class="btn btn-warning btn-lg px-4 py-3 fw-bold w-100 w-lg-auto">
+                    UNIRME AL PLAN
                 </a>
             </div>
         </div>
@@ -177,8 +177,8 @@ function renderDestacadoLargoPlazo(precios) {
                         <h4 class="text-warning mb-0 fw-bold">${precios.anual}</h4>
                     </div>
                 </div>
-                <a href="${INSTAGRAM_URL}" target="_blank" rel="noopener noreferrer" class="btn btn-warning btn-lg px-4 py-3 fw-bold w-100">
-                    <i class="fa-brands fa-instagram me-2"></i> UNIRME AL PLAN ILIMITADO
+                <a href="#inscripcion" class="btn btn-warning btn-lg px-4 py-3 fw-bold w-100">
+                    UNIRME AL PLAN
                 </a>
             </div>
         </div>
@@ -365,3 +365,26 @@ function actualizarEstadoBox() {
 
 actualizarEstadoBox();
 setInterval(actualizarEstadoBox, 60000); // se actualiza solo cada minuto
+
+const WSP_GYM = "56961801140"; // número del gym, sin el +
+
+const formInscripcion = document.getElementById('form-inscripcion');
+
+formInscripcion.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!formInscripcion.checkValidity()) {
+        formInscripcion.reportValidity();
+        return;
+    }
+
+    const d = Object.fromEntries(new FormData(formInscripcion));
+    const mensaje =
+`Hola! Quiero inscribirme en Kronos Box.
+Nombre: ${d.nombre}
+Correo: ${d.correo}
+Teléfono: ${d.telefono}
+Plan: ${d.plan}`;
+
+    window.open(`https://wa.me/${WSP_GYM}?text=${encodeURIComponent(mensaje)}`, '_blank');
+    formInscripcion.reset();
+});

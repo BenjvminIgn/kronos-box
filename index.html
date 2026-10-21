@@ -39,10 +39,10 @@
           <a class="nav-link text-light" href="#planes">Planes</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-light" href="#contacto">Contacto</a>
+          <a class="nav-link text-light" href="#inscripcion">Inscripción</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-light" href="#contacto">Ubicación</a>
+          <a class="nav-link text-light" href="#contacto">Contacto</a>
         </li>
       </ul>
     </div>
@@ -408,8 +408,93 @@
         </div>
     </section>
 
+    <!-- SECCIÓN FORMULARIO DE INSCRIPCIÓN -->
+    <section id="inscripcion" class="py-5" style="background-color: rgba(17, 18, 21, 0.85); border-top: 1px solid rgba(255, 255, 255, 0.05);">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-xl-7" data-aos="fade-up">
+                    <div class="text-center mb-5">
+                        <h6 class="text-warning mb-2" style="letter-spacing: 2px;">— COMIENZA TU ENTRENAMIENTO</h6>
+                        <h2 class="text-light text-uppercase fw-bold mb-3">Solicita tu Inscripción</h2>
+                        <p class="text-secondary mx-auto" style="max-width: 520px;">
+                            Completa tus datos y el plan que más te acomode. Nos pondremos en contacto contigo a la brevedad para coordinar tu ingreso.
+                        </p>
+                    </div>
+
+                    <div class="card-nosotros p-4 p-md-5 shadow-lg">
+                        <form id="form-inscripcion" novalidate> 
+                            
+                            <!-- Nombre Completo -->
+                            <div class="mb-4">
+                                <label for="nombre" class="form-label text-light fw-semibold small text-uppercase" style="letter-spacing: 0.5px;">
+                                    <i class="fa-regular fa-user text-warning me-2"></i>Nombre Completo <span class="text-warning">*</span>
+                                </label>
+                                <input type="text" class="form-control custom-input" id="nombre" name="nombre" placeholder="Ej: Juan Pérez" required>
+                            </div>
+
+                            <!-- Correo Electrónico -->
+                            <div class="mb-4">
+                                <label for="correo" class="form-label text-light fw-semibold small text-uppercase" style="letter-spacing: 0.5px;">
+                                    <i class="fa-regular fa-envelope text-warning me-2"></i>Correo Electrónico <span class="text-warning">*</span>
+                                </label>
+                                <input type="email" class="form-control custom-input" id="correo" name="correo" placeholder="ejemplo@correo.com" required>
+                            </div>
+
+                            <!-- Teléfono / WhatsApp -->
+                            <div class="mb-4">
+                                <label for="telefono" class="form-label text-light fw-semibold small text-uppercase" style="letter-spacing: 0.5px;">
+                                    <i class="fa-brands fa-whatsapp text-warning me-2"></i>Teléfono / WhatsApp <span class="text-warning">*</span>
+                                </label>
+                                <input type="tel" class="form-control custom-input" id="telefono" name="telefono" placeholder="+56 9 1234 5678" required>
+                            </div>
+
+                            <!-- Plan de Interés -->
+                            <div class="mb-4">
+                                <label for="plan" class="form-label text-light fw-semibold small text-uppercase" style="letter-spacing: 0.5px;">
+                                    <i class="fa-solid fa-dumbbell text-warning me-2"></i>Plan de Interés <span class="text-warning">*</span>
+                                </label>
+                                <select class="form-select custom-input" id="plan" name="plan" required>
+                                    <option value="" disabled selected>Selecciona un plan de entrenamiento...</option>
+                                    <optgroup label="Planes Mensuales">
+                                        <option value="Plan Ilimitado Mensual">Plan Ilimitado Mensual</option>
+                                        <option value="Plan 24 Créditos (6 clases/sem)">Plan 24 Créditos (6 clases / sem)</option>
+                                        <option value="Plan 20 Créditos (5 clases/sem)">Plan 20 Créditos (5 clases / sem)</option>
+                                        <option value="Plan 16 Créditos (4 clases/sem)">Plan 16 Créditos (4 clases / sem)</option>
+                                        <option value="Plan 12 Créditos (3 clases/sem)">Plan 12 Créditos (3 clases / sem)</option>
+                                        <option value="Plan 8 Créditos (2 clases/sem)">Plan 8 Créditos (2 clases / sem)</option>
+                                        <option value="Pase Diario">Pase Diario (Clase suelta)</option>
+                                    </optgroup>
+                                    <optgroup label="Convenios y Estudiantes">
+                                        <option value="Plan Estudiante / Convenios">Plan Estudiante / Convenios</option>
+                                    </optgroup>
+                                    <optgroup label="Planes a Largo Plazo">
+                                        <option value="Plan Trimestral">Plan Trimestral</option>
+                                        <option value="Plan Semestral">Plan Semestral</option>
+                                        <option value="Plan Anual">Plan Anual</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="consentimiento" required>
+                                <label class="form-check-label text-secondary small" for="consentimiento">
+                                Acepto que Kronos Box use mis datos solo para contactarme por mi inscripción.
+                                </label>
+                            </div>
+
+                            <!-- Botón de Envío -->
+                            <button type="submit" class="btn btn-warning btn-lg w-100 py-3 fw-bold text-dark text-uppercase mt-2">
+                                <i class="fa-solid fa-paper-plane me-2"></i>Solicitar Inscripción
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- SECCIÓN UBICACIÓN Y CONTACTO -->
-    <section id="contacto" class="py-5" style="background-color: rgba(17, 18, 21, 0.85); border-top: 1px solid rgba(255, 255, 255, 0.05);">
+    <section id="contacto" class="py-5" style="background-color: rgba(17, 18, 21, 0.90); border-top: 1px solid rgba(255, 255, 255, 0.05);">
         <div class="container py-5">
             <!-- Encabezado de Sección -->
             <div class="mb-5">
@@ -538,6 +623,7 @@
                     <li><a href="#nosotros" class="text-secondary text-decoration-none link-light">Nosotros</a></li>
                     <li><a href="#horarios" class="text-secondary text-decoration-none link-light">Horarios</a></li>
                     <li><a href="#planes" class="text-secondary text-decoration-none link-light">Planes</a></li>
+                    <li><a href="#inscripcion" class="text-secondary text-decoration-none link-light">Inscripción</a></li>
                     <li><a href="#contacto" class="text-secondary text-decoration-none link-light">Ubicación</a></li>
                 </ul>
             </div>
