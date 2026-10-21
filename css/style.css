@@ -284,12 +284,67 @@ body{
     color: #ffffff !important;
 }
 
+.custom-input.is-invalid {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
 .custom-input::placeholder {
     color: #6c757d !important;
+}
+
+.custom-input-addon {
+    background-color: #1a1c23 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-right: none !important;
+    color: #FFD600 !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    border-top-left-radius: 8px !important;
+    border-bottom-left-radius: 8px !important;
+    padding: 0.75rem 1rem !important;
+    letter-spacing: 0.5px;
+    user-select: none;
+    transition: border-color 0.3s ease;
+}
+
+.input-group .custom-input.input-has-addon {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+
+.input-group:focus-within .custom-input-addon {
+    border-color: #FFD600 !important;
+}
+
+.input-group.is-invalid-group .custom-input-addon {
+    border-color: #dc3545 !important;
 }
 
 .custom-input option, 
 .custom-input optgroup {
     background-color: #1a1c23;
     color: #ffffff;
+}
+
+.form-check-input {
+    background-color: #121317;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-check-input:checked {
+    background-color: #FFD600;
+    border-color: #FFD600;
+}
+
+.form-check-input:focus {
+    border-color: #FFD600;
+    box-shadow: 0 0 0 0.25rem rgba(255, 214, 0, 0.2);
+}
+
+.form-check-input.is-invalid {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
 }

@@ -370,21 +370,171 @@ const WSP_GYM = "56961801140"; // número del gym, sin el +
 
 const formInscripcion = document.getElementById('form-inscripcion');
 
+// Elementos del formulario y sus mensajes de error
+const inputNombre = document.getElementById('nombre');
+const errorNombre = document.getElementById('error-nombre');
+
+const inputCorreo = document.getElementById('correo');
+const errorCorreo = document.getElementById('error-correo');
+
+const inputTelefono = document.getElementById('telefono');
+const grupoTelefono = document.getElementById('grupo-telefono');
+const errorTelefono = document.getElementById('error-telefono');
+
+const selectPlan = document.getElementById('plan');
+const errorPlan = document.getElementById('error-plan');
+
+const checkConsentimiento = document.getElementById('consentimiento');
+const errorConsentimiento = document.getElementById('error-consentimiento');
+
+// Función para limpiar caracteres no válidos o prefijos redundantes (+56, 569, etc.)
+function limpiarTelefono(valor) {
+    let soloDigitos = valor.replace(/\D/g, '');
+
+    // Si el usuario pegó el número con 569 al inicio
+    if (soloDigitos.startsWith('569') && soloDigitos.length > 8) {
+        soloDigitos = soloDigitos.slice(3);
+    } 
+    // Si comenzó con 56
+    else if (soloDigitos.startsWith('56') && soloDigitos.length > 8) {
+        soloDigitos = soloDigitos.slice(2);
+    }
+    // Si colocó un 9 adicional al inicio de 9 dígitos (duplicando el 9 de +56 9)
+    else if (soloDigitos.length === 9 && soloDigitos.startsWith('9')) {
+        soloDigitos = soloDigitos.slice(1);
+    }
+
+    return soloDigitos.slice(0, 8);
+}
+
+// Funciones para mostrar y limpiar errores
+function mostrarError(input, errorEl, mensaje) {
+    if (input) input.classList.add('is-invalid');
+    if (errorEl) {
+        errorEl.innerHTML = `<i class="fa-solid fa-circle-exclamation me-1"></i>${mensaje}`;
+        errorEl.classList.remove('d-none');
+    }
+}
+
+function limpiarError(input, errorEl) {
+    if (input) input.classList.remove('is-invalid');
+    if (errorEl) {
+        errorEl.classList.add('d-none');
+    }
+}
+
+// Limpiar mensaje de error en tiempo real cuando el usuario escribe o interactúa
+inputNombre?.addEventListener('input', () => limpiarError(inputNombre, errorNombre));
+inputCorreo?.addEventListener('input', () => limpiarError(inputCorreo, errorCorreo));
+
+// Formateo y filtrado en tiempo real del teléfono
+inputTelefono?.addEventListener('input', () => {
+    limpiarError(inputTelefono, errorTelefono);
+    grupoTelefono?.classList.remove('is-invalid-group');
+
+    const digitos = limpiarTelefono(inputTelefono.value);
+    if (digitos.length > 4) {
+        inputTelefono.value = digitos.slice(0, 4) + ' ' + digitos.slice(4);
+    } else {
+        inputTelefono.value = digitos;
+    }
+});
+
+selectPlan?.addEventListener('change', () => limpiarError(selectPlan, errorPlan));
+checkConsentimiento?.addEventListener('change', () => limpiarError(checkConsentimiento, errorConsentimiento));
+
 formInscripcion.addEventListener('submit', (e) => {
     e.preventDefault();
-    if (!formInscripcion.checkValidity()) {
-        formInscripcion.reportValidity();
+
+    let esValido = true;
+    let primerInvalido = null;
+
+    // 1. Validar Nombre Completo
+    const valorNombre = inputNombre ? inputNombre.value.trim() : '';
+    if (valorNombre === '') {
+        mostrarError(inputNombre, errorNombre, 'Por favor, ingresa tu nombre completo.');
+        esValido = false;
+        if (!primerInvalido) primerInvalido = inputNombre;
+    } else if (valorNombre.length < 3) {
+        mostrarError(inputNombre, errorNombre, 'El nombre debe tener al menos 3 caracteres.');
+        esValido = false;
+        if (!primerInvalido) primerInvalido = inputNombre;
+    } else {
+        limpiarError(inputNombre, errorNombre);
+    }
+
+    // 2. Validar Correo Electrónico
+    const valorCorreo = inputCorreo ? inputCorreo.value.trim() : '';
+    const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (valorCorreo === '') {
+        mostrarError(inputCorreo, errorCorreo, 'Por favor, ingresa tu correo electrónico.');
+        esValido = false;
+        if (!primerInvalido) primerInvalido = inputCorreo;
+    } else if (!regexCorreo.test(valorCorreo)) {
+        mostrarError(inputCorreo, errorCorreo, 'Ingresa un correo electrónico válido (ej: nombre@correo.com).');
+        esValido = false;
+        if (!primerInvalido) primerInvalido = inputCorreo;
+    } else {
+        limpiarError(inputCorreo, errorCorreo);
+    }
+
+    // 3. Validar Teléfono / WhatsApp (8 dígitos chilenos tras el +56 9)
+    const digitosTelefono = inputTelefono ? limpiarTelefono(inputTelefono.value) : '';
+    if (digitosTelefono === '') {
+        mostrarError(inputTelefono, errorTelefono, 'Por favor, ingresa tu teléfono o WhatsApp.');
+        grupoTelefono?.classList.add('is-invalid-group');
+        esValido = false;
+        if (!primerInvalido) primerInvalido = inputTelefono;
+    } else if (digitosTelefono.length < 8) {
+        mostrarError(inputTelefono, errorTelefono, 'Ingresa los 8 dígitos restantes de tu número (ej: 1234 5678).');
+        grupoTelefono?.classList.add('is-invalid-group');
+        esValido = false;
+        if (!primerInvalido) primerInvalido = inputTelefono;
+    } else {
+        limpiarError(inputTelefono, errorTelefono);
+        grupoTelefono?.classList.remove('is-invalid-group');
+    }
+
+    // 4. Validar Plan de Interés
+    if (!selectPlan || !selectPlan.value) {
+        mostrarError(selectPlan, errorPlan, 'Por favor, selecciona un plan de interés.');
+        esValido = false;
+        if (!primerInvalido) primerInvalido = selectPlan;
+    } else {
+        limpiarError(selectPlan, errorPlan);
+    }
+
+    // 5. Validar Checkbox de Consentimiento
+    if (!checkConsentimiento || !checkConsentimiento.checked) {
+        mostrarError(checkConsentimiento, errorConsentimiento, 'Por favor, marca esta casilla para poder procesar tu solicitud.');
+        esValido = false;
+        if (!primerInvalido) primerInvalido = checkConsentimiento;
+    } else {
+        limpiarError(checkConsentimiento, errorConsentimiento);
+    }
+
+    // Si algún campo no es válido, detener y enfocar el primero con error
+    if (!esValido) {
+        primerInvalido?.focus();
         return;
     }
 
+    // Si todo está correcto, formatear teléfono y enviar a WhatsApp
+    const telFormateado = `+56 9 ${digitosTelefono.slice(0, 4)} ${digitosTelefono.slice(4)}`;
     const d = Object.fromEntries(new FormData(formInscripcion));
     const mensaje =
 `Hola! Quiero inscribirme en Kronos Box.
 Nombre: ${d.nombre}
 Correo: ${d.correo}
-Teléfono: ${d.telefono}
+Teléfono: ${telFormateado}
 Plan: ${d.plan}`;
 
     window.open(`https://wa.me/${WSP_GYM}?text=${encodeURIComponent(mensaje)}`, '_blank');
     formInscripcion.reset();
+
+    // Limpiar estados visuales
+    [inputNombre, inputCorreo, inputTelefono, selectPlan, checkConsentimiento].forEach(el => {
+        el?.classList.remove('is-invalid');
+    });
+    grupoTelefono?.classList.remove('is-invalid-group');
 });

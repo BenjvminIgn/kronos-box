@@ -429,7 +429,10 @@
                                 <label for="nombre" class="form-label text-light fw-semibold small text-uppercase" style="letter-spacing: 0.5px;">
                                     <i class="fa-regular fa-user text-warning me-2"></i>Nombre Completo <span class="text-warning">*</span>
                                 </label>
-                                <input type="text" class="form-control custom-input" id="nombre" name="nombre" placeholder="Ej: Juan Pérez" required>
+                                <input type="text" class="form-control custom-input" id="nombre" name="nombre" placeholder="Ej: Juan Pérez">
+                                <div id="error-nombre" class="text-danger small mt-2 d-none" style="font-size: 0.85rem;">
+                                    <i class="fa-solid fa-circle-exclamation me-1"></i>Por favor, ingresa tu nombre completo.
+                                </div>
                             </div>
 
                             <!-- Correo Electrónico -->
@@ -437,7 +440,10 @@
                                 <label for="correo" class="form-label text-light fw-semibold small text-uppercase" style="letter-spacing: 0.5px;">
                                     <i class="fa-regular fa-envelope text-warning me-2"></i>Correo Electrónico <span class="text-warning">*</span>
                                 </label>
-                                <input type="email" class="form-control custom-input" id="correo" name="correo" placeholder="ejemplo@correo.com" required>
+                                <input type="email" class="form-control custom-input" id="correo" name="correo" placeholder="ejemplo@correo.com">
+                                <div id="error-correo" class="text-danger small mt-2 d-none" style="font-size: 0.85rem;">
+                                    <i class="fa-solid fa-circle-exclamation me-1"></i>Por favor, ingresa un correo electrónico válido.
+                                </div>
                             </div>
 
                             <!-- Teléfono / WhatsApp -->
@@ -445,7 +451,13 @@
                                 <label for="telefono" class="form-label text-light fw-semibold small text-uppercase" style="letter-spacing: 0.5px;">
                                     <i class="fa-brands fa-whatsapp text-warning me-2"></i>Teléfono / WhatsApp <span class="text-warning">*</span>
                                 </label>
-                                <input type="tel" class="form-control custom-input" id="telefono" name="telefono" placeholder="+56 9 1234 5678" required>
+                                <div class="input-group" id="grupo-telefono">
+                                    <span class="input-group-text custom-input-addon" id="addon-prefijo">+56 9</span>
+                                    <input type="tel" class="form-control custom-input input-has-addon" id="telefono" name="telefono" placeholder="1234 5678" maxlength="9" inputmode="numeric" aria-describedby="addon-prefijo">
+                                </div>
+                                <div id="error-telefono" class="text-danger small mt-2 d-none" style="font-size: 0.85rem;">
+                                    <i class="fa-solid fa-circle-exclamation me-1"></i>Por favor, ingresa tu teléfono o WhatsApp.
+                                </div>
                             </div>
 
                             <!-- Plan de Interés -->
@@ -453,7 +465,7 @@
                                 <label for="plan" class="form-label text-light fw-semibold small text-uppercase" style="letter-spacing: 0.5px;">
                                     <i class="fa-solid fa-dumbbell text-warning me-2"></i>Plan de Interés <span class="text-warning">*</span>
                                 </label>
-                                <select class="form-select custom-input" id="plan" name="plan" required>
+                                <select class="form-select custom-input" id="plan" name="plan">
                                     <option value="" disabled selected>Selecciona un plan de entrenamiento...</option>
                                     <optgroup label="Planes Mensuales">
                                         <option value="Plan Ilimitado Mensual">Plan Ilimitado Mensual</option>
@@ -473,13 +485,19 @@
                                         <option value="Plan Anual">Plan Anual</option>
                                     </optgroup>
                                 </select>
+                                <div id="error-plan" class="text-danger small mt-2 d-none" style="font-size: 0.85rem;">
+                                    <i class="fa-solid fa-circle-exclamation me-1"></i>Por favor, selecciona un plan de interés.
+                                </div>
                             </div>
 
                             <div class="form-check mb-4">
-                                <input class="form-check-input" type="checkbox" id="consentimiento" required>
+                                <input class="form-check-input" type="checkbox" id="consentimiento" name="consentimiento">
                                 <label class="form-check-label text-secondary small" for="consentimiento">
                                 Acepto que Kronos Box use mis datos solo para contactarme por mi inscripción.
                                 </label>
+                                <div id="error-consentimiento" class="text-danger small mt-2 d-none" style="font-size: 0.85rem;">
+                                    <i class="fa-solid fa-circle-exclamation me-1"></i>Por favor, marca esta casilla para poder procesar tu solicitud.
+                                </div>
                             </div>
 
                             <!-- Botón de Envío -->
