@@ -378,7 +378,6 @@ const inputCorreo = document.getElementById('correo');
 const errorCorreo = document.getElementById('error-correo');
 
 const inputTelefono = document.getElementById('telefono');
-const grupoTelefono = document.getElementById('grupo-telefono');
 const errorTelefono = document.getElementById('error-telefono');
 
 const selectPlan = document.getElementById('plan');
@@ -386,26 +385,6 @@ const errorPlan = document.getElementById('error-plan');
 
 const checkConsentimiento = document.getElementById('consentimiento');
 const errorConsentimiento = document.getElementById('error-consentimiento');
-
-// Función para limpiar caracteres no válidos o prefijos redundantes (+56, 569, etc.)
-function limpiarTelefono(valor) {
-    let soloDigitos = valor.replace(/\D/g, '');
-
-    // Si el usuario pegó el número con 569 al inicio
-    if (soloDigitos.startsWith('569') && soloDigitos.length > 8) {
-        soloDigitos = soloDigitos.slice(3);
-    } 
-    // Si comenzó con 56
-    else if (soloDigitos.startsWith('56') && soloDigitos.length > 8) {
-        soloDigitos = soloDigitos.slice(2);
-    }
-    // Si colocó un 9 adicional al inicio de 9 dígitos (duplicando el 9 de +56 9)
-    else if (soloDigitos.length === 9 && soloDigitos.startsWith('9')) {
-        soloDigitos = soloDigitos.slice(1);
-    }
-
-    return soloDigitos.slice(0, 8);
-}
 
 // Funciones para mostrar y limpiar errores
 function mostrarError(input, errorEl, mensaje) {
@@ -426,20 +405,7 @@ function limpiarError(input, errorEl) {
 // Limpiar mensaje de error en tiempo real cuando el usuario escribe o interactúa
 inputNombre?.addEventListener('input', () => limpiarError(inputNombre, errorNombre));
 inputCorreo?.addEventListener('input', () => limpiarError(inputCorreo, errorCorreo));
-
-// Formateo y filtrado en tiempo real del teléfono
-inputTelefono?.addEventListener('input', () => {
-    limpiarError(inputTelefono, errorTelefono);
-    grupoTelefono?.classList.remove('is-invalid-group');
-
-    const digitos = limpiarTelefono(inputTelefono.value);
-    if (digitos.length > 4) {
-        inputTelefono.value = digitos.slice(0, 4) + ' ' + digitos.slice(4);
-    } else {
-        inputTelefono.value = digitos;
-    }
-});
-
+inputTelefono?.addEventListener('input', () => limpiarError(inputTelefono, errorTelefono));
 selectPlan?.addEventListener('change', () => limpiarError(selectPlan, errorPlan));
 checkConsentimiento?.addEventListener('change', () => limpiarError(checkConsentimiento, errorConsentimiento));
 
@@ -478,21 +444,18 @@ formInscripcion.addEventListener('submit', (e) => {
         limpiarError(inputCorreo, errorCorreo);
     }
 
-    // 3. Validar Teléfono / WhatsApp (8 dígitos chilenos tras el +56 9)
-    const digitosTelefono = inputTelefono ? limpiarTelefono(inputTelefono.value) : '';
-    if (digitosTelefono === '') {
+    // 3. Validar Teléfono / WhatsApp
+    const valorTelefono = inputTelefono ? inputTelefono.value.trim() : '';
+    if (valorTelefono === '') {
         mostrarError(inputTelefono, errorTelefono, 'Por favor, ingresa tu teléfono o WhatsApp.');
-        grupoTelefono?.classList.add('is-invalid-group');
         esValido = false;
         if (!primerInvalido) primerInvalido = inputTelefono;
-    } else if (digitosTelefono.length < 8) {
-        mostrarError(inputTelefono, errorTelefono, 'Ingresa los 8 dígitos restantes de tu número (ej: 1234 5678).');
-        grupoTelefono?.classList.add('is-invalid-group');
+    } else if (valorTelefono.length < 8) {
+        mostrarError(inputTelefono, errorTelefono, 'Ingresa un número de contacto válido (mínimo 8 dígitos).');
         esValido = false;
         if (!primerInvalido) primerInvalido = inputTelefono;
     } else {
         limpiarError(inputTelefono, errorTelefono);
-        grupoTelefono?.classList.remove('is-invalid-group');
     }
 
     // 4. Validar Plan de Interés
@@ -519,14 +482,13 @@ formInscripcion.addEventListener('submit', (e) => {
         return;
     }
 
-    // Si todo está correcto, formatear teléfono y enviar a WhatsApp
-    const telFormateado = `+56 9 ${digitosTelefono.slice(0, 4)} ${digitosTelefono.slice(4)}`;
+    // Si todo está correcto, enviar a WhatsApp
     const d = Object.fromEntries(new FormData(formInscripcion));
     const mensaje =
 `Hola! Quiero inscribirme en Kronos Box.
 Nombre: ${d.nombre}
 Correo: ${d.correo}
-Teléfono: ${telFormateado}
+Teléfono: ${d.telefono}
 Plan: ${d.plan}`;
 
     window.open(`https://wa.me/${WSP_GYM}?text=${encodeURIComponent(mensaje)}`, '_blank');
@@ -536,5 +498,4 @@ Plan: ${d.plan}`;
     [inputNombre, inputCorreo, inputTelefono, selectPlan, checkConsentimiento].forEach(el => {
         el?.classList.remove('is-invalid');
     });
-    grupoTelefono?.classList.remove('is-invalid-group');
 });
